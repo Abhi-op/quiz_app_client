@@ -85,13 +85,13 @@ const Home = (props)=>{
               
             </ListItem>
             {quizList.map((quiz)=>{
-                <ListItem secondaryAction={
+             return (<ListItem secondaryAction={
                     <IconButton edge="end" aria-label="delete" onClick={(e)=>handleDelteQuiz(e,quiz.quizId)}>
                       <DeleteIcon />
                     </IconButton>
                   }>
                 <ListItemText primary={quiz.descreption} />
-              </ListItem>
+              </ListItem>)
             })}
           </List>
         </Grid>
