@@ -16,7 +16,6 @@ const BASE_URL = process.env.REACT_BACKEND_URL;
 
 const Home = (props)=>{
       const [quizList,setQuizList] = useState([]);
-      const [newQuizId,setNewQuizId] = useState();
       const userId = localStorage.getItem('user_id');
 
       let navigate = useNavigate();
@@ -24,13 +23,16 @@ const Home = (props)=>{
       const getAllUserQuiz = async()=>{
         if(localStorage.getItem('token')){
             const url = `${BASE_URL}/quizApp/getQuiz/${userId}`
-            await axios.get(url)
-                 .then(response=>{
-                    setQuizList(response.data);
-                 })
-                 .catch(error=>{
-                     console.log("Error while fetching Quiz of the User");
-                 })
+                try {
+                  const response = await axios.get(url,{withCredentials:true})
+                    if(response.status===200){
+                        setQuizList(response.data);
+                    }
+                  
+                } catch (error) {
+                  alert("Error while fetching User Quiz");
+                  
+                }
         }
         else{
           navigate("/login")

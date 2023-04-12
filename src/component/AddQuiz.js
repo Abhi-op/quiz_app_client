@@ -21,39 +21,32 @@ let navigate = useNavigate();
     e.preventDefault(); //page doesn't get reload
     quiz.quizId = quizId;
     const postData = quiz;
-      
       const config = {
         headers: {
           'Content-Type': 'application/json',
           "auth-token": localStorage.getItem('token')
         }
       };
-      
-
-   alert("Added Successfully", "success");
-    try {
+          try {
         const url  = `${BASE_URL}/add/question/${quizId}`;
-        axios.post(url,postData,config)
-          .then(response=>{
-            setQuiz({
-                quesDescreption: "",
-                op1: "",
-                op2: "",
-                op3: "",
-                op4: "",
-                answer: "",
-                quesType: select
-              });
-          })
-          .catch(
-            error=>{
-                alert(error);
-            }
-          )
+        
+             const response = await axios.post(url,postData,config)
+              if(response.status===200){
+                setQuiz({
+                           quesDescreption: "",
+                           op1: "",
+                           op2: "",
+                           op3: "",
+                           op4: "",
+                           answer: "",
+                           quesType: select
+                        });
+                        alert("Question added sucessfully")
+              }
 
         
     } catch (error) {
-        console.log("error while adding qusestion")
+        alert(error);
     }
   };
 
@@ -102,7 +95,7 @@ const test = () =>{
 
 
   const onChange = (e) => {
-    setQuiz({ ...quiz, [e.target.name]: e.target.value }); //whatever value inside the quiz object will exist as it is but jo properties aage likhi ja rhi hai inko add ya overwrite kar dena
+    setQuiz({ ...quiz, [e.target.name]: e.target.value }); 
   };
   return (
     <div>
