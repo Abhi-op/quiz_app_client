@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_BACKEND_URL;
+const BASE_URL = process.env.REACT_APP_BACKEND;
 
 const Quizitem = (props) => {
 const handleDeleteQuestion = async(quesId)=>{

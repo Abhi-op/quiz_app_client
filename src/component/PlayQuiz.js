@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import QuizQuestions from './QuizQuestions';
 import axios from "axios";
-const BASE_URL = process.env.REACT_BACKEND_URL;
+const BASE_URL = process.env.REACT_APP_VARIABLE_ARRAY;
 
 const PlayQuiz = () => {
 
   const [message, setMessage] = useState('');
   const [seq, setSeq] = useState("")  
   const [quizs, setQuizs] = useState([])
-
   var [val, setVal] = useState('')
 
   const handleChange = (event) => {
@@ -22,10 +21,10 @@ const PlayQuiz = () => {
             if(response.status===200){
               setQuizs(response.data);
               setSeq('1')
-             const disableBtn=()=> {
-           document.getElementById('btn2').disabled = true;
-           }
-    disableBtn();    
+              const disableBtn=()=> {
+                document.getElementById('btn2').disabled = true;
+              }
+              disableBtn();    
             }
             
           } catch (error) {
@@ -43,10 +42,10 @@ const PlayQuiz = () => {
     disableBtn();
   }
 
-
   return (
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+  <div>
     <div>
-      <div>
       <input
         type="text"
         id="message"
@@ -57,27 +56,41 @@ const PlayQuiz = () => {
 
       <h2>Message: {message}</h2>
 
-      {/* <h2>Updated: {updated}</h2> */}
-
-      <button className='btn btn-primary' id="btn2" onClick={getQuizQuestions}>Play</button>
+      <button className="btn btn-primary" id="btn2" onClick={getQuizQuestions}>
+        Play
+      </button>
     </div>
 
-    {quizs.map((question) => {
-          return (
-            <QuizQuestions question={question} key={question.quesId} />
-            
-          );
-    })}
-  
-    <button className={seq=='1' ? 'btn btn-primary mx-2' : 'd-none mx-2' } id="btn" onClick={myFunction}>  GENERATE SCORE </button>
-    
-    <div className={seq=='1' ? 'd-flex' : 'd-none' }> Your Score is : {val} </div>
-  
-    {/* <button >GENERATE SCORE</button>  */}
+    {quizs.length > 0 &&
+      quizs.map((question) => {
+        return <QuizQuestions question={question} key={question.quesId} />;
+      })}
+
+    <button
+      className={seq === "1" ? "btn btn-primary mx-2" : "d-none mx-2"}
+      id="btn"
+      onClick={myFunction}
+    >
+      GENERATE SCORE
+    </button>
+
+    <div className={seq === "1" ? "d-flex" : "d-none"}>
+      Your Score is : {val}
+    </div>
+
     <div>
-    <a href="http://localhost:8000/playquiz" class="btn btn-danger my-2" tabIndex="-1" role="button">RESET</a>
+      <a
+        href="http://localhost:8000/playquiz"
+        className="btn btn-danger my-2"
+        tabIndex="-1"
+        role="button"
+      >
+        RESET
+      </a>
     </div>
-    </div>
+  </div>
+</div>
+
   )
 }
 

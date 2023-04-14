@@ -4,23 +4,26 @@ import { useNavigate,useParams } from "react-router-dom";
 import AddQuiz from "./AddQuiz";
 import Quizitem from "./QuesItem";
 import axios from "axios";
-const BASE_URL = process.env.REACT_BACKEND_URL;
+const BASE_URL = process.env.REACT_APP_BACKEND;
 
 const Quiz = (props) => {
    const {quizId} = useParams();
   let [quizQuestions,setQuizQuestions] = useState([]);
   let navigate = useNavigate();
-  const getQuizQuestions = async()=>{
-         const url = `${BASE_URL}/get/quiz/questions/${quizId}`
-          await axios.get(url)
-               .then(response=>{
-                setQuizQuestions(response.data);
-               })
-               .catch(error=>{
-                    alert("Error while getting questions of quiz")
-               })
-          
-  }
+  const getQuizQuestions = async () => {
+    const url = `${BASE_URL}/quizapp/get/quiz/questions/${quizId}`;
+    const headers = {
+      "auth-token": localStorage.getItem("token")
+    };
+    await axios
+      .get(url, { headers })
+      .then(response => {
+        setQuizQuestions(response.data);
+      })
+      .catch(error => {
+        alert("Error while getting questions of quiz");
+      });
+  };
   useEffect(() => {
     if(localStorage.getItem('token')){
       getQuizQuestions();
@@ -216,17 +219,17 @@ const Quiz = (props) => {
         </div>
       </div>
       <div className="row my-3 gy-2">
-        <h2>Your Questions</h2>
-        <div className="container">
-        {quizQuestions.length===0 && 'No notes to display'}
-        </div>
-        {quizQuestions.map((question) => {
-          return (
-            <Quizitem quiz={question} key={question.quesId} updateQuiz={updateQuiz} />
-          );
-        })}
-      </div>
-      
+  <div className="col d-flex justify-content-center">
+    <h2>Your Questions</h2>
+  </div>
+</div>
+<div className="container">
+  {quizQuestions && Array.isArray(quizQuestions) && quizQuestions.map((question) => {
+    return (
+      <Quizitem quiz={question} key={question.quesId} updateQuiz={updateQuiz} />
+    );
+  })}
+</div>
     </>
   );
 };

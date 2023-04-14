@@ -9,8 +9,8 @@ import Quiz from "./component/Quiz";
 function App() {
   return (
     <div className="App">
+      <Navbar />
       <Routes>
-        <Navbar />
       <Route path="/" element={<Home />} />
       <Route path='/login' element={<Login/>} />
       <Route path='/signup' element={<Signup/>}/>
